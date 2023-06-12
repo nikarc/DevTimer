@@ -3,8 +3,11 @@ import { StyleSheet, TouchableOpacity, useColorScheme } from "react-native";
 import { Job } from "../types";
 import { Text, View } from "./Themed";
 import { Entypo } from "@expo/vector-icons";
+import { FlexH } from "./Base";
+import { useMemo } from "react";
+import { pad0 } from "../utils";
 
-export default function JobView({ title, description }: Job) {
+export default function JobView({ title, description, timers }: Job) {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
   const activeTheme = isDark ? DarkTheme : DefaultTheme;
@@ -12,6 +15,14 @@ export default function JobView({ title, description }: Job) {
   const onPress = () => {
     /* TODO */
   };
+
+  const time = useMemo(() => {
+    if (!timers.length) return "00:00";
+
+    const totalTime = timers.reduce((acc, timer) => acc + timer.duration, 0);
+
+    return `${pad0(Math.floor(totalTime / 60))}:${pad0(totalTime % 60)}`;
+  }, [timers]);
 
   return (
     <TouchableOpacity onPress={onPress}>
@@ -22,8 +33,15 @@ export default function JobView({ title, description }: Job) {
         ]}
       >
         <View style={[styles.textContainer]}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.description}>{description}</Text>
+          <FlexH
+            style={{
+              alignItems: "baseline",
+            }}
+          >
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.time}>{time}</Text>
+          </FlexH>
+          {description && <Text style={styles.description}>{description}</Text>}
         </View>
         <Entypo
           name="chevron-small-right"
@@ -62,6 +80,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
+  },
+  time: {
+    opacity: 0.6,
+    marginLeft: 10,
   },
   description: {
     opacity: 0.6,

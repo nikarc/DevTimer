@@ -5,12 +5,37 @@ import { View } from "./Themed";
 
 const mockData: Job[] = [
   {
-    title: "Job 1",
-    description: "Job 1 description",
+    title: "Color Development",
+    timers: [
+      {
+        title: "Development",
+        duration: 180,
+        notes: "102°",
+      },
+      {
+        title: "Blix",
+        duration: 60 * 8,
+      },
+    ],
   },
   {
-    title: "Job 2",
-    description: "Job 2 description",
+    title: "DDX/HP5",
+    description: "@ 1600 iso",
+    timers: [
+      {
+        title: "Development",
+        duration: 600,
+        notes: "102°",
+      },
+      {
+        title: "Water Bath",
+        duration: 30,
+      },
+      {
+        title: "Fix",
+        duration: 60 * 5,
+      },
+    ],
   },
 ];
 
